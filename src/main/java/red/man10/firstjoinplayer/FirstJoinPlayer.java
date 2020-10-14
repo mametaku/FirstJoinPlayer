@@ -94,6 +94,8 @@ public final class FirstJoinPlayer extends JavaPlugin implements Listener {
 
     @EventHandler
     public void LoginEvent(PlayerLoginEvent e) throws IOException {
+        FileConfiguration config = getConfig();
+        if (!config.getBoolean("mode")) return;
         Player p = e.getPlayer();
         if (p.hasPlayedBefore()) return;
         restoreInventory(p,this);
