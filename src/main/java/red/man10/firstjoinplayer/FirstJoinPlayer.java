@@ -106,6 +106,8 @@ public final class FirstJoinPlayer extends JavaPlugin implements Listener {
             if (!rs.next()) {
                 restoreInventory(p,this);
                 data.execute("insert into logged_in_user (uuid,player) value ('" + uuid +"','"+ player +"');");
+            } else {
+
             }
         } catch (SQLException | IOException throwables) {
             throwables.printStackTrace();

@@ -40,7 +40,8 @@ public class MySQLManager {
 
         this.connected = Connect(HOST, DB, USER, PASS,PORT);
 
-        execute("CREATE TABLE if not exists `uuid_to_amount` (\n" +
+        execute("CREATE TABLE if not exists `logged_in_user` (\n" +
+                "  `key` int auto_increment,\n"+
                 "  `uuid` varchar(36) DEFAULT NULL,\n" +
                 "  `player` varchar(16) DEFAULT NULL,\n" +
                 "  `first_login_time` datetime default now() not null,\n");
