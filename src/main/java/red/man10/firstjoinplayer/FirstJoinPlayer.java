@@ -1,5 +1,6 @@
 package red.man10.firstjoinplayer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -57,32 +58,36 @@ public final class FirstJoinPlayer extends JavaPlugin implements Listener {
             p.sendMessage("§b§l ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝");
             return true;
         }
-        if (p.hasPermission("fpj.set")) {
-            if (args[0].equalsIgnoreCase("set")) {
-                try {
-                    saveInventory(p,this);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    p.sendMessage("インベントリのセットができませんでした");
+        if (p.hasPermission("fpj.use")) {
+            if (args.length == 1){
+                if (args[0].equalsIgnoreCase("set")) {
+                    try {
+                        saveInventory(p,this);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        p.sendMessage("インベントリのセットができませんでした");
+                    }
+                    p.sendMessage("インベントリのセットができました");
+                    reloadConfig();
+                    return true;
                 }
-                p.sendMessage("インベントリのセットができました");
-                reloadConfig();
-                return true;
             }
             return true;
         }
 
-        if (p.hasPermission("fpj.get")) {
-            if (args[0].equalsIgnoreCase("get")) {
-                try {
-                    restoreInventory(p,this);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    p.sendMessage("インベントリの取得ができませんでした");
+        if (p.hasPermission("fpj.use")) {
+            if (args.length == 1){
+                if (args[0].equalsIgnoreCase("get")) {
+                    try {
+                        restoreInventory(p,this);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        p.sendMessage("インベントリの取得ができませんでした");
+                    }
+                    p.sendMessage("インベントリの取得ができました");
+                    reloadConfig();
+                    return true;
                 }
-                p.sendMessage("インベントリの取得ができました");
-                reloadConfig();
-                return true;
             }
             return true;
         }
