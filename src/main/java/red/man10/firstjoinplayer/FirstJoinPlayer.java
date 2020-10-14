@@ -103,13 +103,13 @@ public final class FirstJoinPlayer extends JavaPlugin implements Listener {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
-    public void restoreInventory(Player p, Plugin plugin) throws IOException {
+    public Inventory restoreInventory(Player p, Plugin plugin) throws IOException {
         File f = new File(plugin.getDataFolder().getAbsolutePath(),  "kit.yml");
         FileConfiguration c = YamlConfiguration.loadConfiguration(f);
         ItemStack[] content = ((List<ItemStack>) c.get("inventory.armor")).toArray(new ItemStack[0]);
         p.getInventory().setArmorContents(content);
         content = ((List<ItemStack>) c.get("inventory.content")).toArray(new ItemStack[0]);
         p.getInventory().setContents(content);
+        return null;
     }
 }
