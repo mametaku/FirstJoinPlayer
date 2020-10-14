@@ -1,0 +1,9 @@
+name: FirstJoinPlayer
+version: ${project.version}
+main: red.man10.firstjoinplayer.FirstJoinPlayer
+api-version: 1.16
+commands:
+  fjp:
+    description: iroiro
+    usage: /<command>
+    default: op
