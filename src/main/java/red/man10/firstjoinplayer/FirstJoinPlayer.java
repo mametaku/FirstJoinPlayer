@@ -58,38 +58,36 @@ public final class FirstJoinPlayer extends JavaPlugin implements Listener {
             p.sendMessage("§b§l ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝");
             return true;
         }
-        if (p.hasPermission("fpj.use")) {
+        if (args[0].equalsIgnoreCase("set")) {
             if (args.length == 1){
-                if (args[0].equalsIgnoreCase("set")) {
+                if (p.hasPermission("fjp.use")) {
                     try {
                         saveInventory(p,this);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        p.sendMessage("インベントリのセットができませんでした");
+                        p.sendMessage("§2§l[FJP]§fインベントリのセットができませんでした");
                     }
-                    p.sendMessage("インベントリのセットができました");
+                    p.sendMessage("§2§l[FJP]§fインベントリのセットができました");
                     reloadConfig();
                     return true;
                 }
             }
-            return true;
         }
 
-        if (p.hasPermission("fpj.use")) {
+        if (args[0].equalsIgnoreCase("get")) {
             if (args.length == 1){
-                if (args[0].equalsIgnoreCase("get")) {
+                if (p.hasPermission("fjp.use")) {
                     try {
                         restoreInventory(p,this);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        p.sendMessage("インベントリの取得ができませんでした");
+                        p.sendMessage("§2§l[FJP]§fインベントリの取得ができませんでした");
                     }
-                    p.sendMessage("インベントリの取得ができました");
+                    p.sendMessage("§2§l[FJP]§fインベントリの取得ができました");
                     reloadConfig();
                     return true;
                 }
             }
-            return true;
         }
         return false;
     }
@@ -97,7 +95,7 @@ public final class FirstJoinPlayer extends JavaPlugin implements Listener {
     @EventHandler
     public void LoginEvent(PlayerLoginEvent e) throws IOException {
         Player p = e.getPlayer();
-        if (!p.hasPlayedBefore()) return;
+        if (p.hasPlayedBefore()) return;
         restoreInventory(p,this);
     }
 
