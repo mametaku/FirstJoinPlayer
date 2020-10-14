@@ -115,15 +115,15 @@ public final class FirstJoinPlayer extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void LoginEvent(PlayerLoginEvent e) throws IOException {
+    public void LoginEvent(PlayerLoginEvent event) throws IOException {
         FileConfiguration config = getConfig();
         if (!config.getBoolean("mode")) return;
         Bukkit.getScheduler().runTaskAsynchronously(this, (  ) -> {
             try {
-                getData((PlayerEvent) e);
-            } catch (Exception e1) {
-                Bukkit.getLogger().info(e1.getMessage());
-                System.out.println(e1.getMessage());
+                getData((PlayerEvent) event);
+            } catch (Exception e) {
+                Bukkit.getLogger().info(e.getMessage());
+                System.out.println(e.getMessage());
             }
         });
     }
