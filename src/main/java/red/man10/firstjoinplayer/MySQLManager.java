@@ -40,13 +40,10 @@ public class MySQLManager {
 
         this.connected = Connect(HOST, DB, USER, PASS,PORT);
 
-        execute("CREATE TABLE if not exists `player_data` (\n" +
-                "  `key` int(11) unsigned NOT NULL AUTO_INCREMENT,\n" +
-                "  `player_uuid` varchar(40) DEFAULT NULL,\n" +
-                "  `skill_id` int(11) DEFAULT NULL,\n" +
-                "  `level` int(11) DEFAULT NULL,\n" +
-                "  PRIMARY KEY (`key`)\n" +
-                ") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+        execute("CREATE TABLE if not exists `uuid_to_amount` (\n" +
+                "  `uuid` varchar(36) DEFAULT NULL,\n" +
+                "  `player` varchar(16) DEFAULT NULL,\n" +
+                "  `first_login_time` datetime default now() not null,\n");
 
         if(!this.connected) {
             plugin.getLogger().info("Unable to establish a MySQL connection.");

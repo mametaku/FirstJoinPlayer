@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -16,9 +17,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public final class FirstJoinPlayer extends JavaPlugin implements Listener {
+
+    MySQLManager data = new MySQLManager(this,"FirstJoinPlayer");
 
     @Override
     public void onEnable() {
@@ -92,13 +97,33 @@ public final class FirstJoinPlayer extends JavaPlugin implements Listener {
         return false;
     }
 
+    public void getData(PlayerEvent event){
+        Player p = event.getPlayer();
+        String uuid = p.getUniqueId().toString();
+        String player =  p.getName();
+        ResultSet rs = data.query("select * from logged_in_user where uuid='" + uuid + "';");
+        try {
+            if (!rs.next()) {
+                restoreInventory(p,this);
+                data.execute("insert into logged_in_user (uuid,player) value ('" + uuid +"','"+ player +"');");
+            }
+        } catch (SQLException | IOException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     @EventHandler
     public void LoginEvent(PlayerLoginEvent e) throws IOException {
         FileConfiguration config = getConfig();
         if (!config.getBoolean("mode")) return;
-        Player p = e.getPlayer();
-        if (p.hasPlayedBefore()) return;
-        restoreInventory(p,this);
+        Bukkit.getScheduler().runTaskAsynchronously(this, (  ) -> {
+            try {
+                getData((PlayerEvent) e);
+            } catch (Exception e1) {
+                Bukkit.getLogger().info(e1.getMessage());
+                System.out.println(e1.getMessage());
+            }
+        });
     }
 
     public Inventory saveInventory(Player p, Plugin plugin) throws IOException {
