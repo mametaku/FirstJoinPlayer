@@ -77,6 +77,7 @@ public final class FirstJoinPlayer extends JavaPlugin implements Listener {
                     restoreInventory(p,this);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    p.sendMessage("インベントリの取得ができませんでした");
                 }
                 p.sendMessage("インベントリの取得ができました");
                 reloadConfig();
@@ -102,7 +103,7 @@ public final class FirstJoinPlayer extends JavaPlugin implements Listener {
         c.save(f);
         return null;
     }
-
+    @SuppressWarnings("unchecked")
     public Inventory restoreInventory(Player p, Plugin plugin) throws IOException {
         File f = new File(plugin.getDataFolder().getAbsolutePath(),  "kit.yml");
         FileConfiguration c = YamlConfiguration.loadConfiguration(f);
